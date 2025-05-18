@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Picture Picker with Logo</title>
+    <style>
+        /* Paste the CSS snippet here inside the <style> tag */
+
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        #logo img {
+            width: 100%;
+            max-height: 210px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+
+        #picturePicker {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        img.preview {
+            margin-top: 20px;
+            width: 400px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        #imageContainer {
+            min-height: 200px; /* ensure it has some height */
+        }
+
+        /* Optional: hide dropdown & button when printing */
+        @media print {
+            #picturePicker,
+            button {
+                display: none !important;
+            }
+        }
+        @page {
+            size: A4 portrait;
+            margin: 15mm 10mm 20mm 10mm; /* top, right, bottom, left */
+        }
+
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact; /* for Safari/Chrome */
+                print-color-adjust: exact; /* for Firefox */
+                margin: 0;
+            }
+
+            #picturePicker,
+            button {
+                display: none !important;
+            }
+
+            #logo {
+                page-break-before: avoid;
+            }
+        }
+        #nameBox {
+            text-align: left;
+            width: 90%;
+            margin: 10px auto 0 auto;
+            font-size: 16px;
+        }
+
+        #nameInput {
+            padding: 5px;
+            font-size: 16px;
+            width: 250px;
+            margin-top: 5px;
+        }
+
+        #nameDisplay {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="logo">
+        <img src="logo.png" alt="Logo" />
+    </div>
+
+    <select id="picturePicker" onchange="addImage(this.value)">
+        <option value="">-- Select Image --</option>
+        <option value="abdominalbreathing.jpg">Abdominal Breathing</option>
+        <option value="backpress.jpg">Backpress</option>
+    </select>
+    <div id="nameBox">
+        <label for="nameInput"><strong>Name:</strong></label>
+        <input type="text" id="nameInput" oninput="updateNameDisplay()" />
+        <div id="nameDisplay"></div>
+    </div>
+
+    <div id="imageContainer"></div>
+
+
+    <button onclick="window.print()">Print</button>
+
+    <script>
+        function addImage(src) {
+            if (!src) return;
+
+            const imageContainer = document.getElementById("imageContainer");
+
+            // If there's already an image, insert a horizontal rule first
+            if (imageContainer.children.length > 0) {
+                const hr = document.createElement("hr");
+                hr.style.margin = "40px auto";
+                hr.style.width = "80%";
+                imageContainer.appendChild(hr);
+            }
+
+            // Create and append the new image
+            const img = document.createElement("img");
+            img.src = src;
+            img.className = "preview";
+            imageContainer.appendChild(img);
+        }
+
+    </script>
+</body>
+</html>
