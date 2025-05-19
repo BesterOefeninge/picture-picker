@@ -17,7 +17,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 180px; /* Banner height */
+            height: 180px;
             background: white;
             z-index: 1000;
             display: flex;
@@ -27,26 +27,39 @@
         }
 
             #logo img {
-                max-height: 90%; /* Keeps it within the banner */
+                max-height: 90%;
                 max-width: 90%;
                 object-fit: contain;
             }
 
-
-        #controlsContainer {
-            padding-top: 200px; /* pushed down more */
-            position: relative;
-            background-color: #9C6753; /* so content stands out */
-            z-index: 0;
+        #print-logo {
+            display: none;
+            height: 180px;
+            margin-bottom: 20px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .name-box {
-            margin-top: 40px;
-            text-align: center;
-            margin-left: 40px;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
+            #print-logo img {
+                max-height: 90%;
+                max-width: 90%;
+                object-fit: contain;
+            }
+
+        .screen-only {
+            display: block;
+        }
+
+        .print-only {
+            display: none;
+        }
+
+        #controlsContainer {
+            padding-top: 200px;
+            background-color: #9C6753;
+            z-index: 0;
         }
 
         select {
@@ -84,16 +97,34 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
                 margin: 0;
-                padding-top: 190px; /* Match banner height */
                 counter-reset: page;
             }
 
-            #controlsContainer {
-                padding-top: 0;
-                background: none !important; /* removes background color when printing */
-            }
-            select, button, input {
+            #controlsContainer, select, button {
                 display: none !important;
+            }
+
+            .screen-only {
+                display: none !important;
+            }
+
+            .print-only {
+                display: block !important;
+            }
+
+            #print-logo {
+                page-break-after: avoid;
+            }
+
+            .print-only + * {
+                page-break-before: avoid;
+            }
+
+            img.preview {
+                width: 100% !important;
+                height: auto !important;
+                margin: 0 auto 20px auto !important;
+                page-break-inside: avoid;
             }
 
             body::after {
@@ -107,78 +138,66 @@
                 color: black;
             }
 
-            #logo {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 160px; /* Match on-screen height */
-                background: white;
-                z-index: 1000;
-            }
-
-                #logo img {
-                    width: 100%;
-                    height: auto;
-                    display: block;
-                    object-fit: contain;
-                }
-            img.preview {
-                width: 100% !important;
-                height: auto !important;
-                margin: 0 auto !important;
-                page-break-inside: avoid;
-            }
-
             @page {
                 size: A4 portrait;
                 margin: 10mm 15mm 15mm 15mm;
             }
-
         }
+        .image-wrapper {
+            page-break-inside: avoid;
+            break-inside: avoid;
+            margin-bottom: 40px;
+        }
+        @media print {
+            .image-wrapper {
+                display: block;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+        }
+
+
     </style>
 </head>
 <body>
-    <div id="logo">
-        
+    <!-- Screen logo -->
+    <div id="logo" class="screen-only">
+        <img src="logo.png" alt="Company Logo" />
+    </div>
+
+    <!-- Print logo for first page -->
+    <div id="print-logo" class="print-only">
         <img src="logo.png" alt="Company Logo" />
     </div>
 
     <div id="controlsContainer">
-        <div class="name-box">
-            Name: <input type="text" id="nameField" placeholder="Enter name here" />
-        </div>
-
         <select onchange="addImage(this.value)">
             <option value="">-- Select Back/Neck Image --</option>
             <option value="abdominalbreathing.jpg">Abdominal Breathing</option>
             <option value="backpress.jpg">Back Press</option>
             <option value="bridge.jpg">Bridge</option>
             <option value="bridgewpillow.jpg">Bridge with Pillow</option>
-            <option value="bridgewrb.jpg">Bridge with Bankd</option>
+            <option value="bridgewrb.jpg">Bridge with Band</option>
             <option value="chintuck.jpg">Chin Tuck</option>
             <option value="clam.jpg">Clam</option>
             <option value="crossbodycrunch.jpg">Cross-body Crunch</option>
             <option value="doorstretch.jpg">Door Stretch</option>
-            <option value="forwardbandstretch.jpg">Forward Bend Stretch</option>
-            <option value="hipextentionclamstyle.jpg">Hip Extention Clam Style</option>
-            <option value="hipextentionstreightleg.jpg">Hip Extention Streight leg</option>
+            <option value="forwardbendstretch.jpg">Forward Bend Stretch</option>
+            <option value="hipextentionclamstyle.jpg">Hip Extension Clam Style</option>
+            <option value="hipextentionstreightleg.jpg">Hip Extension Straight Leg</option>
             <option value="lumbarrotation.jpg">Lumbar Rotation</option>
             <option value="neckflexor.jpg">Neck Flexor</option>
             <option value="openbook.jpg">Open Book</option>
-            <option value="piriformisinsit.jpg">Piriformis in sit</option>
-            <option value="piriformisstretch.jpg">Piriformis on back</option>
+            <option value="piriformisinsit.jpg">Piriformis in Sit</option>
+            <option value="piriformisstretch.jpg">Piriformis on Back</option>
             <option value="plank.jpg">Plank</option>
-            <option value="sapularretraction.jpg">Scapular Retraction</option>
+            <option value="scapularretraction.jpg">Scapular Retraction</option>
             <option value="scapulasqueeze.jpg">Scapular Squeeze</option>
-            <option value="seated neuralclide.jpg">Seated Neural Glide</option>
+            <option value="seatedneutralclide.jpg">Seated Neural Glide</option>
             <option value="sideneckresistance.jpg">Side Neck Resistance</option>
             <option value="sideplank.jpg">Side Plank</option>
             <option value="trapeziiusstretch.jpg">Trapezius Stretch</option>
             <option value="wallstretch.jpg">Wall Stretch</option>
-            
-
-
         </select>
 
         <select onchange="addImage(this.value)">
@@ -188,32 +207,30 @@
             <option value="quadstretch.jpg">Quad Stretch</option>
             <option value="shoulderrotationwtowel.jpg">Shoulder Rotation with Towel</option>
             <option value="sidelyingarm.jpg">Side Lying Arm Abduction</option>
-            <option value="unlarnervestertch.jpg">Ulnar Nerve stretch</option>
+            <option value="unlarnervestretch.jpg">Ulnar Nerve Stretch</option>
             <option value="wallpushup.jpg">Wall Push-up</option>
             <option value="wax.jpg">Wax</option>
-
         </select>
 
         <select onchange="addImage(this.value)">
             <option value="">-- Select Hip, Knee, Leg Image --</option>
             <option value="doorstretch.jpg">Door Stretch</option>
-            <option value="hamstringstretchwtowel.jpg">Hamstring stretch with Towel</option>
+            <option value="hamstringstretchwtowel.jpg">Hamstring Stretch with Towel</option>
             <option value="heeldrop.jpg">Heel Drop</option>
-            <option value="Isolatedtoelift.jpg">Isolated Toe Lift</option>
+            <option value="isolatedtoelift.jpg">Isolated Toe Lift</option>
             <option value="pendulum.jpg">Pendulum</option>
             <option value="quadstretch.jpg">Quad Stretch</option>
-            <option value="squatwitharm.jpg">Squat with arms at Shoulder Height</option>
+            <option value="squatwitharm.jpg">Squat with Arms at Shoulder Height</option>
             <option value="standkneebent.jpg">Stand Knee Bent</option>
             <option value="toeupstretch.jpg">Toe-up Stretch</option>
             <option value="toweltoecurl.jpg">Toe-curl Towel</option>
             <option value="wallsquat.jpg">Wall Squat</option>
-            
         </select>
+
+        <button onclick="window.print()">Print</button>
     </div>
 
     <div id="imageContainer"></div>
-
-    <button onclick="window.print()">Print</button>
 
     <script>
         function addImage(src) {
@@ -222,15 +239,21 @@
             const imageContainer = document.getElementById("imageContainer");
 
             // Add horizontal line if any image already exists
+            const wrapper = document.createElement("div");
+            wrapper.className = "image-wrapper";
+
             if (imageContainer.children.length > 0) {
                 const hr = document.createElement("hr");
-                imageContainer.appendChild(hr);
+                wrapper.appendChild(hr);
             }
 
             const img = document.createElement("img");
             img.src = src;
             img.className = "preview";
-            imageContainer.appendChild(img);
+            wrapper.appendChild(img);
+
+            imageContainer.appendChild(wrapper);
+
         }
     </script>
 </body>
